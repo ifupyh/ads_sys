@@ -24,8 +24,6 @@ static int config_store_save(const devic_config_t* cfg)
     GKeyFile*kf=g_key_file_new();
     g_key_file_set_string(kf,"server","backendUrl",cfg->backendUrl);
     g_key_file_set_string(kf,"server","mqttUrl",cfg->mqttUrl);
-    g_key_file_set_string(kf,"server","mqttUser",cfg->mqttUser);
-    g_key_file_set_string(kf,"server","mqttPassword",cfg->mqttPassword);
     g_key_file_set_string(kf,"wifi","wifiName",cfg->wifiName);
     g_key_file_set_string(kf,"wifi","wifiPassword",cfg->wifiPassword);
     g_key_file_set_string(kf,"device","area",cfg->area);
@@ -62,8 +60,6 @@ void handle_post_configsubmit(struct mg_connection *c,struct mg_http_message *hm
     mg_http_get_var(&hm->body,"area",cfg.area,sizeof(cfg.area));
     mg_http_get_var(&hm->body,"detailAddress",cfg.detailAddress,sizeof(cfg.detailAddress));
     mg_http_get_var(&hm->body,"mqttUrl",cfg.mqttUrl,sizeof(cfg.mqttUrl));
-    mg_http_get_var(&hm->body,"mqttUser",cfg.mqttUser,sizeof(cfg.mqttUser));
-    mg_http_get_var(&hm->body,"mqttPassword",cfg.mqttPassword,sizeof(cfg.mqttPassword));
     mg_http_get_var(&hm->body,"wifiName",cfg.wifiName,sizeof(cfg.wifiName));
     mg_http_get_var(&hm->body,"wifiPassword",cfg.wifiPassword,sizeof(cfg.wifiPassword));
 
@@ -89,14 +85,14 @@ void handle_post_configsubmit(struct mg_connection *c,struct mg_http_message *hm
     }
 
     /* ---------- 4 拼 JSON，交给 send_json 统一出口 ---------- */
-    char body[1536];
+    char body[1024];
     snprintf(body, sizeof(body),
         "{\"code\":200,\"message\":\"config received\",\"data\":{"
-        "\"backendUrl\":\"%s\",\"mqttUrl\":\"%s\",\"mqttUser\":\"%s\","
+        "\"backendUrl\":\"%s\",\"mqttUrl\":\"%s\","
         "\"wifiName\":\"%s\",\"wifiPassword\":\"%s\","
         "\"area\":\"%s\",\"detailAddress\":\"%s\","
         "\"wifiConnected\":%d}}",
-        cfg.backendUrl, cfg.mqttUrl, cfg.mqttUser, cfg.wifiName, cfg.wifiPassword,
+        cfg.backendUrl, cfg.mqttUrl, cfg.wifiName, cfg.wifiPassword,
         cfg.area, cfg.detailAddress,
         wifi_ret == WIFI_OK ? 1 : 0);
         send_json(c, 200, body);

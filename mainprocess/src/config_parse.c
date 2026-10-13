@@ -1,6 +1,6 @@
 /* config_parse.c —— 用 glib 的 GKeyFile 读 ini
  * 组名/键名按你自己的 configprocess 存的那份来：
- *   [server] backendUrl / mqttUrl / mqttUser / mqttPassword
+ *   [server] backendUrl / mqttUrl
  *   [wifi]   wifiName / wifiPassword
  *   [device] area（字符串）/ detailAddress          */
 #include <stdio.h>
@@ -42,11 +42,9 @@ int config_parse_parse(config_t *cfg, const char *ini_path)
     }
     printf("configPath = %s\n", path);
 
-    /* 3 取 8 项填进结构体 */
+    /* 3 取 6 项填进结构体 */
     get_into(kf, "server", "backendUrl",    cfg->backendUrl,    sizeof(cfg->backendUrl));
     get_into(kf, "server", "mqttUrl",       cfg->mqttUrl,       sizeof(cfg->mqttUrl));
-    get_into(kf, "server", "mqttUser",      cfg->mqttUser,      sizeof(cfg->mqttUser));
-    get_into(kf, "server", "mqttPassword",  cfg->mqttPassword,  sizeof(cfg->mqttPassword));
     get_into(kf, "wifi",   "wifiName",      cfg->wifiName,      sizeof(cfg->wifiName));
     get_into(kf, "wifi",   "wifiPassword",  cfg->wifiPassword,  sizeof(cfg->wifiPassword));
     get_into(kf, "device", "detailAddress", cfg->detailAddress, sizeof(cfg->detailAddress));

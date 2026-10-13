@@ -10,16 +10,18 @@
 #include "heart_logic.h"
 #include "mqtt_util.h"
 #include "sn_util.h"
+#define MQTT_USER "ifupyh"
+#define MQTT_PASSWORD "123456"
 
 static void connect_mqtt(void)
 {
     config_t cfg;
     if (config_parse_parse(&cfg,NULL))
     {
-        printf("[main] 进程解析ini文件失败\n");
+        printf("[main] 进程解析ini文件失败");
         return;
     }
-    if (mqtt_util_connect(cfg.mqttUrl,get_device_sn(),cfg.mqttUser,cfg.mqttPassword)!=0)
+    if (mqtt_util_connect(cfg.mqttUrl,get_device_sn(),MQTT_USER,MQTT_PASSWORD)!=0)
     {
         printf("[main] 连接 MQTT broker 失败\n");
         return;

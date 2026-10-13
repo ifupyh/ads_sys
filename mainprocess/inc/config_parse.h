@@ -1,13 +1,11 @@
 #ifndef CONFIG_PARSE_H
 #define CONFIG_PARSE_H
 
-/* 配置项：8 个字段和 configprocess 存进 ini 的内容一一对应
+/* 配置项：6 个字段和 configprocess 存进 ini 的内容一一对应
  *（数组长度和 configprocess 的 device_config_t 保持一致，比它小会被截断） */
 typedef struct {
     char backendUrl[128]; /* [server] backendUrl    后端地址，只填 IP:端口 */
     char mqttUrl[128]; /* [server] mqttUrl       MQTT 服务器地址，主进程连 broker 用 */
-    char mqttUser[64]; /* [server] mqttUser      broker 用户名，空则匿名登录 */
-    char mqttPassword[64]; /* [server] mqttPassword  broker 密码 */
     char wifiName[128]; /* [wifi]   wifiName      备用 */
     char wifiPassword[128]; /* [wifi]   wifiPassword  备用 */
     int  area; /* [device] area          ini 里存的是字符串，读进来转 int */
