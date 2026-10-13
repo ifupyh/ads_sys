@@ -1,0 +1,7 @@
+# 构建目录。CMake 每次生成的中间文件都不一样，提交进来只会把 git status
+# 和 diff 淹掉，对复现构建也没有帮助——有 CMakeLists.txt 就够了。
+build/
+
+# 可执行文件产物。configprocess/bin、mainprocess/bin 下是编译出的二进制，
+# 目标机器上用源码重新编译即可，不该进版本历史。
+bin/
