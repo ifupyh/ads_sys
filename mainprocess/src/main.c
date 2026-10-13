@@ -3,8 +3,30 @@
 #include <unistd.h>
 #include <signal.h>
 #include <pthread.h>
+#include "curl_util.h"
 #include "msgqueue.h"
+#include "config_parse.h"
 #include "config_logic.h"
+#include "heart_logic.h"
+#include "mqtt_util.h"
+#include "sn_util.h"
+
+static void connect_mqtt(void)
+{
+    config_t cfg;
+    if (config_parse_parse(&cfg,NULL))
+    {
+        printf("[main] 进程解析ini文件失败\n");
+        return;
+    }
+    if (mqtt_util_connect(cfg.mqttUrl,get_device_sn(),cfg.mqttUser,cfg.mqttPassword)!=0)
+    {
+        printf("[main] 连接 MQTT broker 失败\n");
+        return;
+    }
+    heart_subscribe_cmd();
+}
+
 #define HEART_BEAT_INTERVAL 30
 static volatile sig_atomic_t g_run= 1;
 static void on_sigint(int sig)
@@ -45,6 +67,8 @@ int main(int argc, char const *argv[])
 
     (void)argc;
     (void)argv;
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+    connect_mqtt();
     signal(SIGINT, on_sigint);
     pthread_t tid;
     if(pthread_create(&tid,NULL,handle_register_request,NULL)){
@@ -54,7 +78,7 @@ int main(int argc, char const *argv[])
     pthread_detach(tid);
     while (g_run)
     {
-        printf("[main 进程]正在运行...发送心跳！！！\n");
+        send_heart_request();
         sleep(HEART_BEAT_INTERVAL);
     }
     printf("[main 进程]结束运行...,队列保留在内核，可用 ipcs -q 查看\n");

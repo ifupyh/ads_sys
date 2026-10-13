@@ -39,17 +39,17 @@ if(NOT CJSON_FOUND)
     set(CJSON_LIBRARIES    /usr/local/lib/libcjson.so)
 endif()
 # ---------- Paho MQTT C ----------
-# find_path(PAHO_INCLUDE_DIR NAMES MQTTClient.h
-#           PATHS /usr/local/include /usr/include)
-# find_library(PAHO_MQTT3C_LIBRARY NAMES paho-mqtt3c
-#              PATHS /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu)
+find_path(PAHO_INCLUDE_DIR NAMES MQTTClient.h
+          PATHS /usr/local/include /usr/include)
+find_library(PAHO_MQTT3C_LIBRARY NAMES paho-mqtt3c
+             PATHS /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${PROJECT_SOURCE_DIR}/inc
     ${CURL_INCLUDE_DIRS}
     ${CJSON_INCLUDE_DIRS}
-     ${GLIB_INCLUDE_DIRS}
-     # ${PAHO_INCLUDE_DIR}
+    ${GLIB_INCLUDE_DIRS}
+    ${PAHO_INCLUDE_DIR}
 )
 # 链公共库：msgqueue 的封装和 inc 头文件路径都自动到位
 target_link_libraries(${PROJECT_NAME} PRIVATE 
@@ -58,5 +58,5 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     ${CURL_LIBRARIES}
     ${CJSON_LIBRARIES}
     ${GLIB_LIBRARIES}
-#     ${PAHO_MQTT3C_LIBRARY}
+    ${PAHO_MQTT3C_LIBRARY}
 )

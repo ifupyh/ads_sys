@@ -1,7 +1,7 @@
 #ifndef MSGQUEUE
 #define MSGQUEUE
 //存在的文件
-#define MSGQ_KEY_FILE "/tem"
+#define MSGQ_KEY_FILE "/tmp"
 #define MSGQ_KEY_ID 'A'
 #define ADS_MSG_TEXT_LEN 256
 typedef struct 

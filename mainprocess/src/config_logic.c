@@ -3,7 +3,7 @@
 #include "curl_util.h"
 #include "cjson/cJSON.h"
 #include "config_logic.h"
-
+#include "sn_util.h"
 static int g_ok;
 
 
@@ -40,7 +40,7 @@ void send_config_request(char * ini_path)
     
 
    //2.设备的sn(每一台设备的sn是唯一的)，先写死
-    char *sn="jg_ubntu_01";
+    char *sn=get_device_sn();
 
     char url[512];
 

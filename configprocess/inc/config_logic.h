@@ -3,10 +3,12 @@
 #include "mongoose.h"
 
 
-typedef struct 
+typedef struct
 {
     char backendUrl[128];
     char mqttUrl[128];
+    char mqttUser[64];
+    char mqttPassword[64];
     char wifiName[128];
     char wifiPassword[128];
     char area[8];
