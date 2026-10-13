@@ -6,4 +6,5 @@ add_subdirectory(abs_common)
 add_subdirectory(configprocess)
 # 以后新增模块就再加一行，例如：
 add_subdirectory(mainprocess)
+add_subdirectory(test)
 # add_subdirectory(updateprocess)

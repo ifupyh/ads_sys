@@ -4,7 +4,7 @@
 #include <signal.h>
 #include <pthread.h>
 #include "msgqueue.h"
-
+#include "config_logic.h"
 #define HEART_BEAT_INTERVAL 30
 static volatile sig_atomic_t g_run= 1;
 static void on_sigint(int sig)
@@ -34,8 +34,7 @@ static void *handle_register_request(void *param)
             continue;
         }
         printf("【主进程】接收到消息：%s\n",text);
-
-
+        send_config_request(text);
     }
     printf("【主进程】注册线程退出...\n");
     return NULL;
